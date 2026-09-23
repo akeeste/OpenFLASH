@@ -615,19 +615,19 @@ def export_wecsim_hdf5(
             ex_group.create_dataset("im", data=data["excitation_im"][start:stop, :, :])
             """
             sc_group = h5.require_group(f"{body_path}/hydro_coeffs/excitation/scattering")
-            sc_group.create_dataset("mag", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
-            sc_group.create_dataset("phase", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
-            sc_group.create_dataset("re", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
-            sc_group.create_dataset("im", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
+            sc_group.create_dataset("mag", data=ex_sc_zeros[start:stop, :, :])
+            sc_group.create_dataset("phase", data=ex_sc_zeros[start:stop, :, :])
+            sc_group.create_dataset("re", data=ex_sc_zeros[start:stop, :, :])
+            sc_group.create_dataset("im", data=ex_sc_zeros[start:stop, :, :])
 
             fk_group = h5.require_group(f"{body_path}/hydro_coeffs/excitation/froude-krylov")
-            fk_group.create_dataset("mag", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
-            fk_group.create_dataset("phase", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
-            fk_group.create_dataset("re", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
-            fk_group.create_dataset("im", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
+            fk_group.create_dataset("mag", data=ex_sc_zeros[start:stop, :, :])
+            fk_group.create_dataset("phase", data=ex_sc_zeros[start:stop, :, :])
+            fk_group.create_dataset("re", data=ex_sc_zeros[start:stop, :, :])
+            fk_group.create_dataset("im", data=ex_sc_zeros[start:stop, :, :])
 
             ex_irf = h5.require_group(f"{body_path}/hydro_coeffs/excitation/impulse_response_fun")
-            ex_irf.create_dataset("f", data=np.transpose(np.zeros((6, nh, data["ra_t"].size), dtype=float), (2, 1, 0)))
+            ex_irf.create_dataset("f", data=np.zeros((6, nh, data["ra_t"].size), dtype=float))
             ex_irf.create_dataset("t", data=_as_col(data["ra_t"]))
             ex_irf.create_dataset("w", data=_as_col(data["ra_w"]))
             """
@@ -670,7 +670,7 @@ def export_wecsim_hdf5(
             rd_ss_d = h5.require_group(
                 f"{body_path}/hydro_coeffs/radiation_damping/state_space/D"
             )
-            rd_ss_d.create_dataset("all", data=data["ss_D"][start:stop, :].T)
+            rd_ss_d.create_dataset("all", data=data["ss_D"][start:stop, :])
 
             rd_ss_k = h5.require_group(
                 f"{body_path}/hydro_coeffs/radiation_damping/state_space/K"
@@ -679,9 +679,9 @@ def export_wecsim_hdf5(
                 "all", data=data["ss_K"][start:stop, :, :, np.newaxis]
             )
 
-            rd_ss.create_dataset("it", data=data["ss_O"][start:stop, :].T)
-            rd_ss.create_dataset("r2t", data=data["ss_R2"][start:stop, :].T)
-            rd_ss.create_dataset("conv", data=data["ss_conv"][start:stop, :].T)
+            rd_ss.create_dataset("it", data=data["ss_O"][start:stop, :])
+            rd_ss.create_dataset("r2t", data=data["ss_R2"][start:stop, :])
+            rd_ss.create_dataset("conv", data=data["ss_conv"][start:stop, :])
 
     with h5py.File(file_path, "w") as h5:
         _write_bemio_compatible_groups(h5)
