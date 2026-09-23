@@ -220,7 +220,7 @@ def _compute_state_space(
                 order = int(fixed_orders[i, j])
 
             R2 = 0.0
-            status = 2
+            status = 0
 
             while R2i != 0.0:
                 u1 = u[0 : n - 2, 0:order]
@@ -277,6 +277,10 @@ def _compute_state_space(
                 ss_R2[i, j] = R2
                 ss_O[i, j] = order
                 ss_conv[i, j] = status
+
+            if status == 0:
+                # Only updated for more accurate printed message below
+                order = 0
 
             if verbose:
                 # Use one-based DOF numbers to match the Julia printout.
