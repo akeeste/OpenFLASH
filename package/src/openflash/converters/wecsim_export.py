@@ -606,23 +606,13 @@ def export_wecsim_hdf5(
 
             ex_group = h5.require_group(f"{body_path}/hydro_coeffs/excitation")
             ex_group.create_dataset(
-                "mag",
-                data=np.transpose(data["excitation_mag"][start:stop, :, :], (2, 1, 0)),
+                "mag", data=data["excitation_mag"][start:stop, :, :]
             )
             ex_group.create_dataset(
-                "phase",
-                data=np.transpose(
-                    data["excitation_phase"][start:stop, :, :], (2, 1, 0)
-                ),
+                "phase", data=data["excitation_phase"][start:stop, :, :]
             )
-            ex_group.create_dataset(
-                "re",
-                data=np.transpose(data["excitation_re"][start:stop, :, :], (2, 1, 0)),
-            )
-            ex_group.create_dataset(
-                "im",
-                data=np.transpose(data["excitation_im"][start:stop, :, :], (2, 1, 0)),
-            )
+            ex_group.create_dataset("re", data=data["excitation_re"][start:stop, :, :])
+            ex_group.create_dataset("im", data=data["excitation_im"][start:stop, :, :])
             """
             sc_group = h5.require_group(f"{body_path}/hydro_coeffs/excitation/scattering")
             sc_group.create_dataset("mag", data=np.transpose(ex_sc_zeros[start:stop, :, :], (2, 1, 0)))
@@ -643,27 +633,19 @@ def export_wecsim_hdf5(
             """
 
             am_group = h5.require_group(f"{body_path}/hydro_coeffs/added_mass")
-            am_group.create_dataset(
-                "all", data=np.transpose(data["A"][start:stop, :, :], (2, 1, 0))
-            )
+            am_group.create_dataset("all", data=data["A"][start:stop, :, :])
             am_group.create_dataset(
                 "inf_freq",
-                data=data["Ainf"][start:stop, :].T,
+                data=data["Ainf"][start:stop, :],
             )
 
             rd_group = h5.require_group(f"{body_path}/hydro_coeffs/radiation_damping")
-            rd_group.create_dataset(
-                "all",
-                data=np.transpose(data["B"][start:stop, :, :], (2, 1, 0)),
-            )
+            rd_group.create_dataset("all", data=data["B"][start:stop, :, :])
 
             rd_irf = h5.require_group(
                 f"{body_path}/hydro_coeffs/radiation_damping/impulse_response_fun"
             )
-            rd_irf.create_dataset(
-                "K",
-                data=np.transpose(data["ra_K"][start:stop, :, :], (2, 1, 0)),
-            )
+            rd_irf.create_dataset("K", data=data["ra_K"][start:stop, :, :])
             rd_irf.create_dataset("t", data=_as_col(data["ra_t"]))
             rd_irf.create_dataset("w", data=_as_col(data["ra_w"]))
 
@@ -673,26 +655,17 @@ def export_wecsim_hdf5(
             rd_ss_a = h5.require_group(
                 f"{body_path}/hydro_coeffs/radiation_damping/state_space/A"
             )
-            rd_ss_a.create_dataset(
-                "all",
-                data=np.transpose(data["ss_A"][start:stop, :, :, :], (3, 2, 1, 0)),
-            )
+            rd_ss_a.create_dataset("all", data=data["ss_A"][start:stop, :, :, :])
 
             rd_ss_b = h5.require_group(
                 f"{body_path}/hydro_coeffs/radiation_damping/state_space/B"
             )
-            rd_ss_b.create_dataset(
-                "all",
-                data=np.transpose(data["ss_B"][start:stop, :, :, :], (3, 2, 1, 0)),
-            )
+            rd_ss_b.create_dataset("all", data=data["ss_B"][start:stop, :, :, :])
 
             rd_ss_c = h5.require_group(
                 f"{body_path}/hydro_coeffs/radiation_damping/state_space/C"
             )
-            rd_ss_c.create_dataset(
-                "all",
-                data=np.transpose(data["ss_C"][start:stop, :, :, :], (3, 2, 1, 0)),
-            )
+            rd_ss_c.create_dataset("all", data=data["ss_C"][start:stop, :, :, :])
 
             rd_ss_d = h5.require_group(
                 f"{body_path}/hydro_coeffs/radiation_damping/state_space/D"
@@ -703,10 +676,7 @@ def export_wecsim_hdf5(
                 f"{body_path}/hydro_coeffs/radiation_damping/state_space/K"
             )
             rd_ss_k.create_dataset(
-                "all",
-                data=np.transpose(
-                    data["ss_K"][start:stop, :, :, np.newaxis], (3, 2, 1, 0)
-                ),
+                "all", data=data["ss_K"][start:stop, :, :, np.newaxis]
             )
 
             rd_ss.create_dataset("it", data=data["ss_O"][start:stop, :].T)
